@@ -50,6 +50,7 @@ const configurableProps = [
   'autoCheckLiveStatusAndRecord',
   'autoCheckInterval',
   'ffmpegOutputArgs',
+  'automaticSegmentation',
 ] as const
 type ConfigurableProp = typeof configurableProps[number]
 function isConfigurableProp(prop: unknown): prop is ConfigurableProp {
@@ -93,6 +94,8 @@ export interface RecorderManager<
 
   autoCheckLiveStatusAndRecord: boolean
   autoCheckInterval: number
+  automaticSegmentation: number
+    
   isCheckLoopRunning: boolean
   startCheckLoop: (this: RecorderManager<ME, P, PE, E>) => void
   stopCheckLoop: (this: RecorderManager<ME, P, PE, E>) => void
@@ -197,6 +200,7 @@ export function createRecorderManager<
 
     autoCheckLiveStatusAndRecord: opts.autoCheckLiveStatusAndRecord ?? true,
     autoCheckInterval: opts.autoCheckInterval ?? 1000,
+    automaticSegmentation: 1000,
     isCheckLoopRunning: false,
     startCheckLoop() {
       if (this.isCheckLoopRunning) return

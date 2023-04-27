@@ -77,7 +77,8 @@ async function stopRecord(
 ): Promise<API.stopRecord.Resp> {
   const resp = await requester.post<{ payload: API.stopRecord.Resp }>(
     `/recorders/${args.id}/stop_record`
-  )
+    )
+    console.error(resp.data)
   return resp.data.payload
 }
 

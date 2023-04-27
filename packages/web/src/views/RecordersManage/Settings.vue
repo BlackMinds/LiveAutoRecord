@@ -146,16 +146,16 @@
 </template>
 
 <script setup lang="ts">
-console.log(1)
-
 import type { API } from '@autorecord/http-server'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { LARServerService } from '../../services/LARServerService'
 import { ClientService } from '../../services/ClientService'
 import { RecordService } from '../../services/RecordService'
 import { useEffectInLifecycle } from '../../hooks'
 import { InteractionService } from '../../services/InteractionService'
+import type { ClientRecorder } from '@autorecord/http-server'
+import { assert } from '../../utils'
 
 const isClient = ClientService.isClientMode()
 const router = useRouter()
@@ -170,6 +170,12 @@ useEffectInLifecycle(() => {
 onMounted(async () => {
     manager.value = await LARServerService.getManager({})
     settings.value = await LARServerService.getSettings({})
+
+    await localStorage.setItem(
+        'automaticSegmentation',
+        manager.value.automaticSegmentation
+    )
+    // console.error(await manager.value.automaticSegmentation)
 })
 
 const apply = async () => {

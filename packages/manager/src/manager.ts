@@ -200,7 +200,7 @@ export function createRecorderManager<
 
     autoCheckLiveStatusAndRecord: opts.autoCheckLiveStatusAndRecord ?? true,
     autoCheckInterval: opts.autoCheckInterval ?? 1000,
-    automaticSegmentation: 1000,
+    automaticSegmentation: 300000,
     isCheckLoopRunning: false,
     startCheckLoop() {
       if (this.isCheckLoopRunning) return

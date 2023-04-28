@@ -72,6 +72,24 @@
           hint="录制时将按前后顺序尝试选择指定源"
         />
 
+        {{ recorder.prohibitRecordingTimePeriod }}
+        <v-checkbox
+          label="禁止自动录制时间段"
+          v-model="recorder.prohibitRecordingTimePeriod"
+        />
+
+        <input
+          type="time"
+          v-model="recorder.prohibitRecordingStart"
+          v-if="!recorder.prohibitRecordingTimePeriod"
+        />
+
+        <input
+          type="time"
+          v-model="recorder.prohibitRecordingEnd"
+          v-if="!recorder.prohibitRecordingTimePeriod"
+        />
+
         <v-checkbox label="禁用自动录制" v-model="recorder.disableAutoCheck" />
       </v-form>
     </v-card-item>
@@ -201,3 +219,13 @@ const removeRecorder = async () => {
   router.back()
 }
 </script>
+<style scoped>
+input[type='time'] {
+  background-color: #fff;
+  border: 2px solid #2196f3;
+  border-radius: 5px;
+  color: #000;
+  font-size: 16px;
+  padding: 10px;
+}
+</style>

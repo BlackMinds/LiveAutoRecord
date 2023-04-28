@@ -65,6 +65,9 @@ export namespace API {
       | 'quality'
       | 'streamPriorities'
       | 'sourcePriorities'
+      | 'prohibitRecordingStart'
+      | 'prohibitRecordingEnd'
+      | 'prohibitRecordingTimePeriod'
     >
 
     export type Resp = ClientRecorder

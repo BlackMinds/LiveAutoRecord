@@ -94,6 +94,17 @@
           v-model="manager.autoCheckInterval"
           type="number"
         />
+
+        <input
+          v-if="manager.autoCheckLiveStatusAndRecord"
+          type="time"
+          v-model="manager.prohibitRecordingStart"
+        />
+        <input
+          v-if="manager.autoCheckLiveStatusAndRecord"
+          type="time"
+          v-model="manager.prohibitRecordingEnd"
+        />
       </v-form>
     </v-card-item>
 
@@ -214,3 +225,14 @@ const apply = async () => {
   RecordService.noticeOnRecordStart = newSettings.noticeOnRecordStart
 }
 </script>
+
+<style scoped>
+input[type='time'] {
+  background-color: #fff;
+  border: 2px solid #2196f3;
+  border-radius: 5px;
+  color: #000;
+  font-size: 16px;
+  padding: 10px;
+}
+</style>

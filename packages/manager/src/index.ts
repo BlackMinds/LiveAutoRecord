@@ -38,6 +38,9 @@ export function defaultToJSON<E extends AnyObject>(
         'streamPriorities',
         'sourcePriorities',
         'extra',
+        'prohibitRecordingStart',
+        'prohibitRecordingEnd',
+        'prohibitRecordingTimePeriod'
       ],
       recorder
     ),

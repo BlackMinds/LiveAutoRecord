@@ -50,6 +50,8 @@ const configurableProps = [
   'autoCheckLiveStatusAndRecord',
   'autoCheckInterval',
   'ffmpegOutputArgs',
+  'prohibitRecordingStart',
+  'prohibitRecordingEnd'
 ] as const
 type ConfigurableProp = typeof configurableProps[number]
 function isConfigurableProp(prop: unknown): prop is ConfigurableProp {
@@ -96,7 +98,8 @@ export interface RecorderManager<
   isCheckLoopRunning: boolean
   startCheckLoop: (this: RecorderManager<ME, P, PE, E>) => void
   stopCheckLoop: (this: RecorderManager<ME, P, PE, E>) => void
-
+  prohibitRecordingStart: string
+  prohibitRecordingEnd: string
   savePathRule: string
   ffmpegOutputArgs: string
 }
@@ -127,8 +130,31 @@ export function createRecorderManager<
     const maxThreadCount = 3
     // 这里暂时不打算用 state == recording 来过滤，provider 必须内部自己处理录制过程中的 check，
     // 这样可以防止一些意外调用 checkLiveStatusAndRecord 时出现重复录制。
-    const needCheckRecorders = recorders.filter((r) => !r.disableAutoCheck)
+    const needCheckRecorders = recorders.filter((r) => {
 
+      let prohibitRecordingStart
+      let prohibitRecordingEnd
+
+      if (manager.prohibitRecordingStart && manager.prohibitRecordingEnd && !r.prohibitRecordingTimePeriod) {
+        console.log(1)
+        prohibitRecordingStart = r.prohibitRecordingStart || manager.prohibitRecordingStart
+        prohibitRecordingEnd = r.prohibitRecordingEnd || manager.prohibitRecordingEnd
+      }
+
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const current_time = hours + ":" + minutes;
+      console.error(!current_time >= prohibitRecordingStart, !current_time <= prohibitRecordingEnd)
+      console.log(2)
+      if (!r.disableAutoCheck && !(current_time >= prohibitRecordingStart && current_time <= prohibitRecordingEnd)) return r
+
+    })
+
+    if (needCheckRecorders.length < 0) {
+      return
+    }
+    
     const checkOnce = async () => {
       const recorder = needCheckRecorders.pop()
       if (recorder == null) return
@@ -197,6 +223,9 @@ export function createRecorderManager<
 
     autoCheckLiveStatusAndRecord: opts.autoCheckLiveStatusAndRecord ?? true,
     autoCheckInterval: opts.autoCheckInterval ?? 1000,
+    prohibitRecordingStart: opts.prohibitRecordingStart ?? '',
+    prohibitRecordingEnd: opts.prohibitRecordingEnd ?? '',
+    
     isCheckLoopRunning: false,
     startCheckLoop() {
       if (this.isCheckLoopRunning) return

@@ -11,7 +11,9 @@ function getManager(args: API.getManager.Args): API.getManager.Resp {
     'savePathRule',
     'autoCheckLiveStatusAndRecord',
     'autoCheckInterval',
-    'ffmpegOutputArgs'
+    'ffmpegOutputArgs',
+    'prohibitRecordingStart',
+    'prohibitRecordingEnd'
   )
 }
 
@@ -67,7 +69,9 @@ router
       'savePathRule',
       'autoCheckLiveStatusAndRecord',
       'autoCheckInterval',
-      'ffmpegOutputArgs'
+      'ffmpegOutputArgs',
+      'prohibitRecordingStart',
+      'prohibitRecordingEnd'
     )
 
     res.json({ payload: updateManager(args) })

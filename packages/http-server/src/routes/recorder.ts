@@ -121,7 +121,10 @@ router
       'quality',
       'streamPriorities',
       'sourcePriorities',
-      'extra'
+      'extra',
+      'prohibitRecordingStart',
+      'prohibitRecordingEnd',
+      'prohibitRecordingTimePeriod'
     )
 
     res.json({ payload: addRecorder(args) })
@@ -142,7 +145,10 @@ router
       'disableAutoCheck',
       'quality',
       'streamPriorities',
-      'sourcePriorities'
+      'sourcePriorities',
+      'prohibitRecordingStart',
+      'prohibitRecordingEnd',
+      'prohibitRecordingTimePeriod'
     )
 
     res.json({ payload: updateRecorder({ id, ...patch }) })

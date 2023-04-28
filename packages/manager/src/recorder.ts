@@ -20,6 +20,12 @@ export interface RecorderCreateOpts<E extends AnyObject = UnknownObject> {
   streamPriorities: string[]
   // 该项为用户配置，不同源（CDN）的优先级，如果设置了此项，将优先根据此决定使用哪个源，除非所有的指定源无效
   sourcePriorities: string[]
+  // 该项为用户配置，禁止录播的开始时间
+  prohibitRecordingStart: string
+  // 该项为用户配置，禁止录播的结束时间
+  prohibitRecordingEnd: string
+  // 为 true 时 启用 禁止录制时间段
+  prohibitRecordingTimePeriod?: boolean
   // 可持久化的额外字段，让 provider、manager 开发者可以有更多 customize 的空间
   extra?: Partial<E>
 }

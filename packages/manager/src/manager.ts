@@ -138,12 +138,12 @@ export function createRecorderManager<
       let prohibitRecordingEnd
       console.log(manager.prohibitRecordingTimePeriod, r.prohibitRecordingTimePeriod)
       //  && !r.prohibitRecordingTimePeriod && !manager.prohibitRecordingTimePeriod
-      if (manager.prohibitRecordingStart && manager.prohibitRecordingEnd) {
-        prohibitRecordingStart = !manager.prohibitRecordingTimePeriod ? r.prohibitRecordingStart || manager.prohibitRecordingStart : ''
-        prohibitRecordingEnd = !manager.prohibitRecordingTimePeriod ? r.prohibitRecordingEnd || manager.prohibitRecordingEnd : ''
-      }
+      // if (manager.prohibitRecordingStart && manager.prohibitRecordingEnd) {
+        prohibitRecordingStart = !manager.prohibitRecordingTimePeriod || (r.prohibitRecordingStart && !r.prohibitRecordingTimePeriod) ? r.prohibitRecordingStart || manager.prohibitRecordingStart : ''
+        prohibitRecordingEnd = !manager.prohibitRecordingTimePeriod || (r.prohibitRecordingEnd && !r.prohibitRecordingTimePeriod) ? r.prohibitRecordingEnd || manager.prohibitRecordingEnd : ''
+      // }
 
-      const now = new Date();
+      const now = new Date(); 
       const hours = now.getHours();
       const minutes = now.getMinutes();
       const current_time = hours + ":" + minutes;

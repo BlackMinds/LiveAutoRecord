@@ -51,7 +51,8 @@ const configurableProps = [
   'autoCheckInterval',
   'ffmpegOutputArgs',
   'prohibitRecordingStart',
-  'prohibitRecordingEnd'
+  'prohibitRecordingEnd',
+  'prohibitRecordingTimePeriod'
 ] as const
 type ConfigurableProp = typeof configurableProps[number]
 function isConfigurableProp(prop: unknown): prop is ConfigurableProp {
@@ -93,13 +94,14 @@ export interface RecorderManager<
     recorder: Recorder<E>
   ) => void
 
-  autoCheckLiveStatusAndRecord: boolean
   autoCheckInterval: number
   isCheckLoopRunning: boolean
   startCheckLoop: (this: RecorderManager<ME, P, PE, E>) => void
   stopCheckLoop: (this: RecorderManager<ME, P, PE, E>) => void
   prohibitRecordingStart: string
   prohibitRecordingEnd: string
+  autoCheckLiveStatusAndRecord: boolean
+  prohibitRecordingTimePeriod: boolean
   savePathRule: string
   ffmpegOutputArgs: string
 }
@@ -134,19 +136,18 @@ export function createRecorderManager<
 
       let prohibitRecordingStart
       let prohibitRecordingEnd
-
-      if (manager.prohibitRecordingStart && manager.prohibitRecordingEnd && !r.prohibitRecordingTimePeriod) {
-        console.log(1)
-        prohibitRecordingStart = r.prohibitRecordingStart || manager.prohibitRecordingStart
-        prohibitRecordingEnd = r.prohibitRecordingEnd || manager.prohibitRecordingEnd
+      console.log(manager.prohibitRecordingTimePeriod, r.prohibitRecordingTimePeriod)
+      //  && !r.prohibitRecordingTimePeriod && !manager.prohibitRecordingTimePeriod
+      if (manager.prohibitRecordingStart && manager.prohibitRecordingEnd) {
+        prohibitRecordingStart = !manager.prohibitRecordingTimePeriod ? r.prohibitRecordingStart || manager.prohibitRecordingStart : ''
+        prohibitRecordingEnd = !manager.prohibitRecordingTimePeriod ? r.prohibitRecordingEnd || manager.prohibitRecordingEnd : ''
       }
 
       const now = new Date();
       const hours = now.getHours();
       const minutes = now.getMinutes();
       const current_time = hours + ":" + minutes;
-      console.error(!current_time >= prohibitRecordingStart, !current_time <= prohibitRecordingEnd)
-      console.log(2)
+      // console.error(!current_time >= prohibitRecordingStart, !current_time <= prohibitRecordingEnd)
       if (!r.disableAutoCheck && !(current_time >= prohibitRecordingStart && current_time <= prohibitRecordingEnd)) return r
 
     })
@@ -225,7 +226,7 @@ export function createRecorderManager<
     autoCheckInterval: opts.autoCheckInterval ?? 1000,
     prohibitRecordingStart: opts.prohibitRecordingStart ?? '',
     prohibitRecordingEnd: opts.prohibitRecordingEnd ?? '',
-    
+    prohibitRecordingTimePeriod: opts.prohibitRecordingTimePeriod ?? true,
     isCheckLoopRunning: false,
     startCheckLoop() {
       if (this.isCheckLoopRunning) return

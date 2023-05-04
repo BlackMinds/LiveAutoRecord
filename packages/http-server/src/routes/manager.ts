@@ -13,7 +13,8 @@ function getManager(args: API.getManager.Args): API.getManager.Resp {
     'autoCheckInterval',
     'ffmpegOutputArgs',
     'prohibitRecordingStart',
-    'prohibitRecordingEnd'
+    'prohibitRecordingEnd',
+    'prohibitRecordingTimePeriod'
   )
 }
 
@@ -71,7 +72,8 @@ router
       'autoCheckInterval',
       'ffmpegOutputArgs',
       'prohibitRecordingStart',
-      'prohibitRecordingEnd'
+      'prohibitRecordingEnd',
+      'prohibitRecordingTimePeriod'
     )
 
     res.json({ payload: updateManager(args) })

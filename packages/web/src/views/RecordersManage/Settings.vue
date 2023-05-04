@@ -94,14 +94,19 @@
           v-model="manager.autoCheckInterval"
           type="number"
         />
+        {{ manager.prohibitRecordingTimePeriod }}
+        <v-checkbox
+          label="禁止自动录制时间段"
+          v-model="manager.prohibitRecordingTimePeriod"
+        />
 
         <input
-          v-if="manager.autoCheckLiveStatusAndRecord"
+          v-if="!manager.prohibitRecordingTimePeriod"
           type="time"
           v-model="manager.prohibitRecordingStart"
         />
         <input
-          v-if="manager.autoCheckLiveStatusAndRecord"
+          v-if="!manager.prohibitRecordingTimePeriod"
           type="time"
           v-model="manager.prohibitRecordingEnd"
         />

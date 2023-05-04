@@ -87,7 +87,8 @@ export async function initRecorderManager(
         'autoCheckInterval',
         'ffmpegOutputArgs',
         'prohibitRecordingStart',
-        'prohibitRecordingEnd'
+        'prohibitRecordingEnd',
+        'prohibitRecordingTimePeriod'
       )
     )
   })
